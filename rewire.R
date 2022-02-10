@@ -48,8 +48,3 @@ wrongful_birth <- read_html("https://rewirenewsgroup.com/legislative-tracker/law
 rewire_leg <- rbind(coercion_tests, twenty_week_bans, admitting_privileges, anti_transgender, buffer_zones_bubble_zones, conscience_and_refusal_clauses, crisis_pregnancy_centers, dilation_and_evacuation_bans, fetal_homicide, fetal_tissue, forced_ultrasound, funding_restrictions_for_family_planning, genetic_anomalies, heartbeat_bans, human_embryo_and_fetal_research, informed_consent, insurance_coverage, later_abortion, lgbtq, medication_abortion, omnibus_multiple_topics, parental_involvement, partial_birth_abortion_bans, personhood, physicians_reporting_requirements, pregnancy_exclusion, religious_freedom, religious_freedom_restoration_act, religious_imposition, reporting_requirements, reproductive_health_awareness, restrictions_funding_surgery, sex_ed_and_abstinence_only, sex_or_race_selective_bans, substance_abuse_during_pregnancy, targeted_regulation_of_abortion_providers, telemedicine_abortion_bans, waiting_periods_and_forced_counseling, wrongful_birth)
 
 
-ggplot(rewire_leg, aes(x = "Proposed", y = "Status")) +
-  geom_point()
-  
-
-
