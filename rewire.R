@@ -5,9 +5,8 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 
-html_coercion <- read_html("https://rewirenewsgroup.com/legislative-tracker/law-topic/coercion-tests/")
 
-
+#IMPORT TABLES FROM REWIRE
 coercion_tests <- read_html("https://rewirenewsgroup.com/legislative-tracker/law-topic/coercion-tests/") %>% 
   html_table() %>% 
   data.frame() %>% 
@@ -157,6 +156,7 @@ wrongful_birth <- read_html("https://rewirenewsgroup.com/legislative-tracker/law
   mutate(type = "Wrongful Birth")
 
 
+#BIND TABLES TOGETHER
 rewire_leg <- rbind(coercion_tests, 
                     twenty_week_bans,
                     admitting_privileges,
@@ -196,6 +196,7 @@ rewire_leg <- rbind(coercion_tests,
                     wrongful_birth)
 
 
+#CLEAN
 rewire_leg2 <- rewire_leg %>%
   # Fix Dates
   mutate(date = as.Date(Proposed, format = "%b %d, %Y")) %>%
@@ -210,43 +211,40 @@ rewire_leg2 <- rewire_leg %>%
   pivot_wider(names_from = type, values_from = n, values_fill = 0)
   
   
-
-#MISSING DATES
+#View missing dates
 rewire_leg_prop_miss <- rewire_leg2 %>%
   filter(Proposed == "")
 
 
-#View state counts
+#Exploring state counts
 state_counts <- rewire_leg2 %>%
   group_by(state) %>%
   count(state) %>%
   arrange(desc(n))
 view(state_counts)
 
+# Rough Histogram
+ggplot(rewire_leg2, aes(date, color = state)) +
+  geom_histogram()
 
 
-
-###NEXT STEPS
+#NEXT STEPS
 # Rename columns to lower case and update - DONE
 # Correctly classify date values - DONE
+# Merge duplicate values, preserve different "type" data - DONE
 # Clean up the state column so federal legislation is tracked differently for the 330 bills.
 # Classify missing values. Email rewire? Visualize where the gaps are.
 # Learn how to graph each state's over time.
 
-##Eventually
+#EVENTUALLY
 # Classify states by region
-# Link to census data
-# "https://rewirenewsgroup.com/legislative-tracker/legal-case/" + title of the bill (spaces and punct replaced with "-")
+# Join with census data
+# "https://rewirenewsgroup.com/legislative-tracker/law/" + title of the bill (spaces and punct replaced with "-")
 
-# Merge duplicate values, preserve different "type" data.
 
-#Rough Histogram
-ggplot(rewire_leg2, aes(date, color = state)) +
-  geom_histogram()
-#Questions
+
+#QUESTIONS
 ## Why are we missing so much data for 2000 - 2010 and 2010?
 ## Why is there a jump in 2013? Is this database well-maintained enough to use?
 
-#Web Scraping Tasks
-## Also need to scrape individual legislation pages for pro or anti-choice.
-### Can do that by using the root link: "https://rewirenewsgroup.com/legislative-tracker/legal-case/
+
