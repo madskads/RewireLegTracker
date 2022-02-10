@@ -2,7 +2,6 @@ require(XML)
 library(tidyverse)
 library(rvest)
 
-rewire_table_links <- read_csv("rewire_table_links.csv")
 html_coercion <- read_html("https://rewirenewsgroup.com/legislative-tracker/law-topic/coercion-tests/")
 
 coercion_tests <- read_html("https://rewirenewsgroup.com/legislative-tracker/law-topic/coercion-tests/") %>% html_table() %>% data.frame() %>% mutate(type = "Coercion Tests")
